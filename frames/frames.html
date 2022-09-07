@@ -1,0 +1,226 @@
+<html>
+<head>
+<style>
+* {
+	padding:0;
+	margin:0;
+	border:0;
+}
+
+#maincontainer {
+    bottom: 0;
+    border-radius: 4px;
+    background-color: #C7C8CC;
+	min-width:700px;
+}
+
+#dHeader {
+    position: relative;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background-color: #4F545A;
+    height: 72px;
+    display: inline-block;
+}
+
+#dHeaderLeft {
+    position: absolute;
+    left: 0;
+    top: 0;
+    vertical-align: top;
+    text-align: left;
+    width: 335px;
+    height: 72px;
+	background-color: #AA0000;
+}
+
+#dHeaderCenter {
+    position: absolute;
+    left: 335px;
+    top: 0;
+    vertical-align: top;
+    text-align: center;
+    width: 345px;
+    height: 72px;
+	background-color: #00AA00;
+}
+
+#dHeaderRight {
+    position: absolute;
+    right: 0;
+    top: 0;
+    text-align: right;
+    padding: 0 5px 0 0;
+    height: 72px;
+	background-color: #0000AA;
+}
+
+#cont {
+    position:relative;
+	width:100%;
+	height: calc(100% - 72px);
+	background-color:#555555;
+}
+	 
+#tree {
+    position:relative;
+	width:100%;
+	height:150px;
+	background-color:#555555;
+	display: flex;
+}
+	 
+#t1 {
+    position:relative;
+	width:50%;
+	height: 100%;
+	background-color:#CCBBAA;
+	display: flex;
+}
+#t2 {
+    position:relative;
+	width:50%;
+	height: 100%;
+	background-color:#AABBCC;
+	display: flex;
+}
+#maptools {
+    position:relative;
+	width: 100%;
+	background-color:#AAAA00;
+}
+#tools {
+    position:relative;
+	width: 100%;
+	background-color:#AA0000;
+	height: 20px;
+}
+#map {
+    position:relative;
+	width: 100%;
+	background-color:#00AA00;
+	height: calc(100% - 20px);
+}
+</style>
+
+<style>
+.split, .split-flex {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.gutter {
+	background-color: #eee;
+	background-repeat: no-repeat;
+	background-position: 50%;
+}
+
+.gutter.gutter-horizontal {
+	background-image: url('s/vertical.png');
+	cursor: ew-resize;
+	margin: 0 1;
+}
+
+.gutter.gutter-vertical {
+	background-image: url('s/horizontal.png');
+	cursor: ns-resize;
+}
+
+.split.split-horizontal, .gutter.gutter-horizontal {
+	height: 100%;
+	float: left;
+}
+</style>
+
+<script language="JavaScript" src="script/split.js"></script>
+
+
+<script type="text/javascript">
+
+function getwindowsize() {
+	var myWidth=0,myHeight=0;
+
+	if( typeof( window.innerWidth ) == 'number' ) {
+		//Non-IE
+	        myWidth = window.innerWidth;
+	        myHeight = window.innerHeight;
+			return [ parseInt(myWidth), parseInt(myHeight) ];
+	} 
+
+	if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+ 	       //IE 6+ in 'standards compliant mode'
+        	myWidth = document.documentElement.clientWidth;
+        	myHeight = document.documentElement.clientHeight;
+			return [ parseInt(myWidth), parseInt(myHeight) ];
+    	} 
+	if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+        //IE 4 compatible
+        	myWidth = document.body.clientWidth;
+        	myHeight = document.body.clientHeight;
+			return [ parseInt(myWidth), parseInt(myHeight) ];
+    	}
+	return [ parseInt(myWidth), parseInt(myHeight) ];
+}	
+
+function isResized() {
+
+	var s=getwindowsize();
+	console.log('wi,he => '+s[0]+','+s[1]);
+
+}
+
+function initSplitPanels() {
+	isResized();
+
+  	var gSize=3;	
+	var pan1 = Split(['#tree', '#maptools'], {
+				sizes: [30, 70],
+				direction: 'vertical',
+				minSize: [20,200],
+				gutterSize: gSize
+		});
+		
+	var pan2 = Split(['#t1', '#t2'], {
+				sizes: [50, 50],
+				minSize: [100,250],
+				gutterSize: gSize
+		});
+}
+ 
+window.onresize = isResized;
+
+</script>
+
+</head>
+<body>
+
+<div id="maincontainer">
+	<div id="dHeader">
+		<div id="dHeaderLeft">Header Left</div>
+		<div id="dHeaderCenter">Header Center</div>
+		<div id="dHeaderRight">Header Right</div>
+	</div>
+
+	<div id="cont">
+		<div id="tree" class="split split-vertical">
+				<div id="t1" class="split split-horizontal">Left</div>
+				<div id="t2" class="split split-horizontal">Right</div>
+		</div>
+		<div id="maptools" class="split split-vertical">
+			<div id="tools">Tools</div>	
+			<div id="map">Map</div>	
+		</div>
+	</div>
+		
+</div>
+
+<script type="text/javascript">initSplitPanels();</script>
+
+
+</body>
+</html>
